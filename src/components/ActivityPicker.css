@@ -1,0 +1,35 @@
+.activity-panel {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #fff;
+  color: #272136;
+}
+
+.activity-panel__connection,
+.activity-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: center;
+  gap: 10px;
+}
+
+.activity-panel__connection { align-items: center; font-size: 0.85rem; }
+.activity-picker label { display: grid; gap: 4px; font-size: 0.85rem; }
+.activity-picker input,
+.activity-picker select { min-height: 38px; padding: 7px; border: 1px solid #c6b6c0; border-radius: 8px; background: white; color: #272136; }
+.activity-picker input { width: 170px; }
+.activity-picker__swatch { display: inline-block; width: 22px; height: 22px; flex: none; border-radius: 5px; }
+.activity-panel__hint,
+.activity-panel__message { margin: 0; text-align: center; font-size: 0.85rem; }
+.activity-panel__totals { border-top: 1px solid #eee; padding-top: 12px; }
+.activity-panel__totals h2 { margin: 0 0 8px; font-size: 1rem; }
+.activity-panel__totals-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.activity-panel__totals-heading button { padding: 5px 8px; font-size: 0.75rem; }
+.activity-panel__totals ul { list-style: none; margin: 0; padding: 0; }
+.activity-panel__totals li { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+.activity-panel__totals li strong { margin-left: auto; font-variant-numeric: tabular-nums; }

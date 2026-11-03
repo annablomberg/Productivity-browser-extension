@@ -4,25 +4,22 @@
 }
 
 .site-header {
-  display: grid;
-  gap: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding-bottom: 18px;
   border-bottom: 1px solid #d9aebd;
 }
 
 .site-header__brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: #3e3640;
-  font-size: 1.1rem;
-  font-weight: 700;
-  text-decoration: none;
-  padding: 0;
+  flex: none;
 }
 
 .site-nav {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 6px;
 }
@@ -37,7 +34,7 @@
 
 .site-nav a:hover,
 .site-nav a.active {
-  background: #9ff5c3;
+  background: #92D175
 }
 
 .site-nav a:focus-visible,

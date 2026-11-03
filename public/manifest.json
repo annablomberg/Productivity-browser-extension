@@ -3,7 +3,12 @@
   "name": "Annas productivity helper",
   "description": "Track your time, disable reels and other fun stuff",
   "version": "0.0.1",
-  "permissions": ["storage"],
+  "permissions": ["storage", "identity"],
+  "host_permissions": ["https://www.googleapis.com/*"],
+  "oauth2": {
+    "client_id": "YOUR_EXTENSION_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/calendar.app.created"]
+  },
   "icons": {
     "16": "heartbloom_icon.png",
     "32": "heartbloom_icon.png",
