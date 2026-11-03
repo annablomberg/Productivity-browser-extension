@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Annas productivity helper",
+  "description": "Track your time, disable reels and other fun stuff",
+  "version": "0.0.1",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "Open Productivity Timer"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

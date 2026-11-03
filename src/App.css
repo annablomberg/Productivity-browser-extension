@@ -1,0 +1,12 @@
+main {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+button {
+  padding: 10px 16px;
+  cursor: pointer;
+}

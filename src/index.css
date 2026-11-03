@@ -1,0 +1,35 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #f1f5f9;
+  background-color: #FFDBE8;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 260px;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+#root {
+  min-height: 100%;
+  padding: 20px;
+}
+
+button {
+  background-color: #9FF5C3;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #92D175;
+}
