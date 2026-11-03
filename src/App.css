@@ -1,12 +1,66 @@
-main {
-  padding: 20px;
+.app-shell {
+  max-width: 720px;
+  margin: 0 auto;
 }
 
-h1 {
-  font-size: 20px;
+.site-header {
+  display: grid;
+  gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #d9aebd;
 }
 
-button {
-  padding: 10px 16px;
-  cursor: pointer;
+.site-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #3e3640;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.site-nav a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: #3e3640;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  background: #9ff5c3;
+}
+
+.site-nav a:focus-visible,
+.site-header__brand:focus-visible {
+  outline: 2px solid #365844;
+  outline-offset: 2px;
+}
+
+.page-content {
+  padding-top: 16px;
+}
+
+.page-content h1 {
+  margin: 0 0 16px;
+  color: #3e3640;
+  font-size: 1.25rem;
+}
+
+.page-content p {
+  color: #3e3640;
+}
+
+.timer-page {
+  display: grid;
+  justify-items: center;
 }
