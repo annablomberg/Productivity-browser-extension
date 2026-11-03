@@ -4,8 +4,15 @@
   "description": "Track your time, disable reels and other fun stuff",
   "version": "0.0.1",
   "permissions": ["storage"],
+  "icons": {
+    "16": "heartbloom_icon.png",
+    "32": "heartbloom_icon.png",
+    "48": "heartbloom_icon.png",
+    "128": "heartbloom_icon.png"
+  },
   "action": {
-    "default_title": "Open Productivity Timer"
+    "default_title": "Open Productivity Timer",
+    "default_icon": "heartbloom_icon.png"
   },
   "background": {
     "service_worker": "background.js"
