@@ -5,7 +5,8 @@
   width: 100%;
   padding: 24px;
   border-radius: 16px;
-  background: #fff;
+  border: 1px solid #e89eb8;
+  background: radial-gradient(circle at center, #e89eb8 0%, #ffdbe8 100%);
   color: #272136;
 }
 

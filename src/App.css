@@ -61,3 +61,8 @@
   display: grid;
   justify-items: center;
 }
+
+.blockers-list {
+  display: grid;
+  gap: 12px;
+}

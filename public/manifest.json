@@ -3,8 +3,8 @@
   "name": "Annas productivity helper",
   "description": "Track your time, disable reels and other fun stuff",
   "version": "0.0.1",
-  "permissions": ["storage", "identity"],
-  "host_permissions": ["https://www.googleapis.com/*"],
+  "permissions": ["storage", "identity", "declarativeNetRequest"],
+  "host_permissions": ["https://www.googleapis.com/*", "*://*.youtube.com/*"],
   "oauth2": {
     "client_id": "YOUR_EXTENSION_OAUTH_CLIENT_ID.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/calendar.app.created"]
@@ -27,6 +27,12 @@
       "matches": ["https://www.youtube.com/*", "https://youtube.com/*", "https://m.youtube.com/*"],
       "js": ["youtube-shorts-blocker.js"],
       "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["youtube-blocked.html"],
+      "matches": ["*://*.youtube.com/*"]
     }
   ]
 }
