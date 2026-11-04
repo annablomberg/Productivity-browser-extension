@@ -6,6 +6,10 @@ Click the extension's toolbar icon from any page, including `chrome://extensions
 
 If the window does not appear, check **Errors** on the extension card in `chrome://extensions`.
 
+## YouTube Shorts blocker
+
+Open **Blockers** in the extension window and turn on **YouTube Shorts**. The setting is saved in Chrome, hides Shorts entries on YouTube, and redirects direct Shorts pages to the YouTube home page. Reload the unpacked extension after building to activate the YouTube content script.
+
 ## Google Calendar activity logging
 
 The timer can save focused sessions to a separate **Activity Tracker** calendar. Each session uses the activity name and Google Calendar event color selected before Start. Stop saves the session, and the timer page lists today's time by activity from that calendar. Paused time is excluded from the event's duration. If saving fails, the timer is kept so Stop can be retried.

@@ -1,0 +1,97 @@
+.shorts-blocker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #fff;
+  color: #272136;
+}
+
+.shorts-blocker__details {
+  flex: 1 1 180px;
+}
+
+.shorts-blocker__details h2 {
+  margin: 0 0 5px;
+  font-size: 1rem;
+}
+
+.shorts-blocker__details p,
+.shorts-blocker__message {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.shorts-blocker__control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.shorts-blocker__switch {
+  position: relative;
+  display: inline-flex;
+}
+
+.shorts-blocker__switch input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.shorts-blocker__track {
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  background: #b9acb5;
+  transition: background 150ms ease;
+}
+
+.shorts-blocker__track::after {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 3px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 150ms ease;
+}
+
+.shorts-blocker__switch input:checked + .shorts-blocker__track {
+  background: #4c975c;
+}
+
+.shorts-blocker__switch input:checked + .shorts-blocker__track::after {
+  transform: translateX(18px);
+}
+
+.shorts-blocker__switch input:focus-visible + .shorts-blocker__track {
+  outline: 2px solid #365844;
+  outline-offset: 3px;
+}
+
+.shorts-blocker__switch input:disabled {
+  cursor: not-allowed;
+}
+
+.shorts-blocker__control:has(input:disabled) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.shorts-blocker__message {
+  flex-basis: 100%;
+  color: #87435a;
+}

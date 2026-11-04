@@ -21,5 +21,12 @@
   },
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*", "https://youtube.com/*", "https://m.youtube.com/*"],
+      "js": ["youtube-shorts-blocker.js"],
+      "run_at": "document_start"
+    }
+  ]
 }
