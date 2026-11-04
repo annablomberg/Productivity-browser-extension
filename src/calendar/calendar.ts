@@ -1,3 +1,5 @@
+import { accessToken, authorizeCalendar, invalidateAccessToken } from './googleAuth'
+
 export type Activity = { name: string; colorId: string }
 export type CalendarColor = { id: string; name: string; hex: string }
 export type DailyTotal = { name: string; colorId: string; milliseconds: number }
@@ -19,11 +21,17 @@ export const eventColors: CalendarColor[] = [
 const calendarKey = 'heartbloomCalendarId'
 const api = 'https://www.googleapis.com/calendar/v3'
 
-declare const chrome: {
-  identity: {
-    getAuthToken: (options: { interactive: boolean }) => Promise<{ token?: string } | string>
-    removeCachedAuthToken: (options: { token: string }) => Promise<void>
+class CalendarRequestError extends Error {
+  status: number
+
+  constructor(status: number, message: string) {
+    super(message)
+    this.name = 'CalendarRequestError'
+    this.status = status
   }
+}
+
+declare const chrome: {
   storage: {
     local: {
       get: (key: string) => Promise<Record<string, unknown>>
@@ -32,42 +40,23 @@ declare const chrome: {
   }
 }
 
-function configured() {
-  if (typeof chrome === 'undefined' || !chrome.identity) {
-    throw new Error('Google Calendar is available in the installed extension.')
-  }
-  const clientId = (chrome as unknown as { runtime: { getManifest: () => { oauth2?: { client_id?: string } } } })
-    .runtime.getManifest().oauth2?.client_id
-  if (!clientId || clientId.includes('YOUR_')) {
-    throw new Error('Set your Google OAuth client ID in public/manifest.json, then rebuild and reload the extension.')
-  }
-}
-
-async function token(interactive: boolean): Promise<string> {
-  configured()
-  const result = await chrome.identity.getAuthToken({ interactive })
-  const value = typeof result === 'string' ? result : result.token
-  if (!value) throw new Error('Google Calendar authorization did not return a token.')
-  return value
-}
-
 async function request<T>(path: string, options: RequestInit = {}, interactive = false): Promise<T> {
-  let accessToken = await token(interactive)
+  let credential = await accessToken(interactive)
   let response: Response
   const send = (credential: string) => fetch(`${api}${path}`, {
     ...options,
     headers: { Authorization: `Bearer ${credential}`, 'Content-Type': 'application/json', ...options.headers },
   })
-  response = await send(accessToken)
+  response = await send(credential)
   if (response.status === 401) {
-    await chrome.identity.removeCachedAuthToken({ token: accessToken })
-    accessToken = await token(interactive)
-    response = await send(accessToken)
+    await invalidateAccessToken(credential)
+    credential = await accessToken(interactive)
+    response = await send(credential)
   }
   if (!response.ok) {
     if (response.status === 409) throw new Error('Calendar event already exists.')
     const body = await response.json().catch(() => null) as { error?: { message?: string } } | null
-    throw new Error(body?.error?.message ?? `Google Calendar request failed (${response.status}).`)
+    throw new CalendarRequestError(response.status, body?.error?.message ?? `Google Calendar request failed (${response.status}).`)
   }
   return response.json() as Promise<T>
 }
@@ -79,9 +68,16 @@ export async function savedCalendarId(): Promise<string | null> {
 }
 
 export async function connectCalendar(): Promise<string> {
-  await token(true)
+  await authorizeCalendar()
   const existing = await savedCalendarId()
-  if (existing) return existing
+  if (existing) {
+    try {
+      await request(`/calendars/${encodeURIComponent(existing)}`, {}, true)
+      return existing
+    } catch (error) {
+      if (!(error instanceof CalendarRequestError) || error.status !== 404) throw error
+    }
+  }
   const calendar = await request<{ id: string }>('/calendars', {
     method: 'POST',
     body: JSON.stringify({ summary: 'Heartbloom Activity Tracker', description: 'Focused activity sessions logged by Heartbloom.' }),
@@ -114,6 +110,9 @@ export async function saveSession(calendarId: string, activity: Activity, endTim
     await request(`/calendars/${encodeURIComponent(calendarId)}/events`, { method: 'POST', body: JSON.stringify(event) }, true)
   } catch (error) {
     if (error instanceof Error && error.message === 'Calendar event already exists.') return
+    if (error instanceof CalendarRequestError && error.status === 404) {
+      throw new Error('This Google calendar is no longer available. Click Reconnect to create a new one.', { cause: error })
+    }
     throw error
   }
 }
@@ -126,7 +125,7 @@ type CalendarEvent = {
   extendedProperties?: { private?: { heartbloom?: string; activityType?: string } }
 }
 
-export async function todayTotals(calendarId: string): Promise<DailyTotal[]> {
+export async function todayTotals(calendarId: string, interactive = false): Promise<DailyTotal[]> {
   const start = new Date()
   start.setHours(0, 0, 0, 0)
   const end = new Date(start)
@@ -138,6 +137,8 @@ export async function todayTotals(calendarId: string): Promise<DailyTotal[]> {
     if (pageToken) query.set('pageToken', pageToken)
     const page = await request<{ items?: CalendarEvent[]; nextPageToken?: string }>(
       `/calendars/${encodeURIComponent(calendarId)}/events?${query}`,
+      {},
+      interactive,
     )
     for (const event of page.items ?? []) {
       if (event.extendedProperties?.private?.heartbloom !== 'activity-session') continue

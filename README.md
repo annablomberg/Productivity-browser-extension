@@ -16,15 +16,6 @@ To block all of YouTube, turn on the separate **YouTube** switch directly below 
 
 The timer can save focused sessions to a separate **Activity Tracker** calendar. Each session uses the activity name and Google Calendar event color selected before Start. Stop saves the session, and the timer page lists today's time by activity from that calendar. Paused time is excluded from the event's duration. If saving fails, the timer is kept so Stop can be retried.
 
-Google OAuth setup is required before connecting:
-
-1. In a Google Cloud project, enable the Google Calendar API and configure the OAuth consent screen. Add your Google account as a test user if the app is in testing mode.
-2. Find the extension ID in `chrome://extensions`. Create an OAuth client of type **Chrome Extension** for that ID. Keep the extension ID stable during development; Chrome's [OAuth guide](https://developer.chrome.com/docs/extensions/how-to/integrate/oauth) describes using a manifest `key` for this.
-3. Replace `YOUR_EXTENSION_OAUTH_CLIENT_ID.apps.googleusercontent.com` in `public/manifest.json` with the client ID. Run `npm run build`, then reload the unpacked extension.
-4. Open the timer and click **Connect Google Calendar**. This requests the `calendar.app.created` scope and creates the dedicated calendar in your Google account.
-
-The OAuth client ID is public application configuration, not a secret. Google Calendar access is available in the installed Chrome extension; the Vite development page cannot use `chrome.identity`.
-
 ## Vite template notes
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

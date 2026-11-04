@@ -6,7 +6,7 @@
   "permissions": ["storage", "identity", "declarativeNetRequest"],
   "host_permissions": ["https://www.googleapis.com/*", "*://*.youtube.com/*"],
   "oauth2": {
-    "client_id": "YOUR_EXTENSION_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+    "client_id": "110434112472-2k3mg6o16kumc19ikli811hsisbh6vsn.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/calendar.app.created"]
   },
   "icons": {

@@ -79,7 +79,7 @@ export function ActivityPicker({ value, onChange, disabled, calendarId, onCalend
   const refresh = async () => {
     if (!calendarId) return
     try {
-      setTotals(await todayTotals(calendarId))
+      setTotals(await todayTotals(calendarId, true))
       onMessage('')
     } catch (error) {
       onMessage(`Could not refresh totals: ${String(error)}`)

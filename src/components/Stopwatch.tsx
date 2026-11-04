@@ -128,6 +128,19 @@ export function Stopwatch({ activity, calendarId, onSessionChange, onSaved, onMe
     } catch (error) { onMessage(String(error)) }
   }
 
+  const clear = async () => {
+    if (!ready || busy || !window.confirm('Discard this unsaved timer and start again?')) return
+    setBusy(true)
+    try {
+      await save(initialState)
+      onMessage('Timer cleared. You can start a new session.')
+    } catch (error) {
+      onMessage(`Could not clear timer: ${error instanceof Error ? error.message : String(error)}`)
+    } finally {
+      setBusy(false)
+    }
+  }
+
   const stop = async () => {
     if (!ready || busy) return
     const endTime = Date.now()
@@ -154,7 +167,7 @@ export function Stopwatch({ activity, calendarId, onSessionChange, onSaved, onMe
       onSaved()
       onMessage(`Saved ${selectedActivity.name} to Google Calendar.`)
     } catch (error) {
-      onMessage(`Could not save session: ${error instanceof Error ? error.message : String(error)}. Your stopped session is still available; press Stop to retry.`)
+      onMessage(`Could not save session: ${error instanceof Error ? error.message : String(error)}. Your stopped session is still available; press Stop to retry, or Clear timer to discard it.`)
     } finally {
       setBusy(false)
     }
@@ -167,6 +180,7 @@ export function Stopwatch({ activity, calendarId, onSessionChange, onSaved, onMe
         <button type="button" onClick={() => void start()} disabled={!ready || busy || timer.startedAt !== null}>Start</button>
         <button type="button" onClick={() => void pause()} disabled={!ready || busy || timer.startedAt === null}>Pause</button>
         <button type="button" onClick={() => void stop()} disabled={!ready || busy || elapsedTime(timer, now) === 0}>Stop and save</button>
+        <button className="stopwatch__clear" type="button" onClick={() => void clear()} disabled={!ready || busy || (timer.startedAt === null && timer.accumulatedMs === 0)}>Clear timer</button>
       </div>
     </section>
   )
