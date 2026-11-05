@@ -10,11 +10,60 @@
   color: #272136;
 }
 
+.stopwatch {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
 .stopwatch__display {
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: clamp(1.6rem, 8vw, 2.5rem);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+  --led-color: #f07f91;
+  --led-border: #c84e74;
+  --led-glow: #f07f91;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 440px;
+}
+
+.stopwatch__digits {
+  display: flex;
+  align-items: center;
+  gap: clamp(2px, 0.8vw, 6px);
+  width: 100%;
+}
+
+.stopwatch__digit {
+  display: block;
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  height: auto;
+  overflow: visible;
+}
+
+.stopwatch__colon {
+  display: block;
+  flex: 0.3 1 0;
+  width: 0;
+  min-width: 0;
+  height: auto;
+  overflow: visible;
+  fill: var(--led-color);
+  stroke: var(--led-border);
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 2px var(--led-glow)) drop-shadow(0 0 10px var(--led-glow));
+}
+
+.stopwatch__segment {
+  fill: var(--led-color);
+  opacity: 0;
+}
+
+.stopwatch__segment--on {
+  opacity: 1;
+  stroke: var(--led-border);
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 2px var(--led-glow)) drop-shadow(0 0 10px var(--led-glow));
 }
 
 .stopwatch__controls {

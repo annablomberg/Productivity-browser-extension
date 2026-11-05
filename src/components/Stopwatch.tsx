@@ -2,6 +2,73 @@ import { useEffect, useState } from 'react'
 import { saveSession, type Activity } from '../calendar/calendar'
 import './Stopwatch.css'
 
+const digitSegments: Record<string, string> = {
+  '0': 'abcdef',
+  '1': 'bc',
+  '2': 'abdeg',
+  '3': 'abcdg',
+  '4': 'bcfg',
+  '5': 'acdfg',
+  '6': 'acdefg',
+  '7': 'abc',
+  '8': 'abcdefg',
+  '9': 'abcdfg',
+}
+
+const segmentShapes: Record<string, string> = {
+  a: '12,4 48,4 54,10 46,18 14,18 6,10',
+  b: '55,12 58,16 58,46 51,52 44,45 44,23',
+  c: '51,56 58,62 58,92 55,96 44,85 44,63',
+  d: '14,90 46,90 54,98 48,104 12,104 6,98',
+  e: '5,56 12,63 12,85 1,96 0,92 0,62',
+  f: '1,12 12,23 12,45 5,52 0,46 0,16',
+  g: '14,47 44,47 51,54 44,61 14,61 7,54',
+}
+
+function SevenSegmentTime({ value }: { value: string }) {
+  return (
+    <output
+      className="stopwatch__display"
+      aria-label={`Elapsed time: ${value}`}
+    >
+      <span className="stopwatch__digits" aria-hidden="true">
+        {[...value].map((character, index) =>
+          character === ':' ? (
+            <svg
+              key={index}
+              className="stopwatch__colon"
+              viewBox="0 0 18 108"
+              focusable="false"
+            >
+              <rect x="5" y="33" width="8" height="8" rx="1" />
+              <rect x="5" y="69" width="8" height="8" rx="1" />
+            </svg>
+          ) : (
+            <svg
+              key={index}
+              className="stopwatch__digit"
+              viewBox="-2 0 62 108"
+              focusable="false"
+            >
+              {Object.entries(segmentShapes).map(([segment, points]) => (
+                <polygon
+                  key={segment}
+                  points={points}
+                  className={
+                    digitSegments[character]?.includes(segment)
+                      ? 'stopwatch__segment stopwatch__segment--on'
+                      : 'stopwatch__segment'
+                  }
+                />
+              ))}
+            </svg>
+          ),
+        )}
+      </span>
+    </output>
+  )
+}
+
 type TimerState = {
   accumulatedMs: number
   startedAt: number | null
@@ -162,7 +229,7 @@ export function Stopwatch({ activity, calendarId, onSessionChange, onSaved, onMe
 
   return (
     <section className="stopwatch" aria-label="Activity timer">
-      <output className="stopwatch__display" aria-label="Elapsed time">{formatTime(elapsedTime(timer, now))}</output>
+      <SevenSegmentTime value={formatTime(elapsedTime(timer, now))} />
       <div className="stopwatch__controls">
         <button type="button" onClick={() => void start()} disabled={!ready || busy || timer.startedAt !== null}>Start</button>
         <button type="button" onClick={() => void pause()} disabled={!ready || busy || timer.startedAt === null}>Pause</button>
