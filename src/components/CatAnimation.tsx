@@ -36,6 +36,7 @@ export function CatAnimation({ state }: CatAnimationProps) {
 
   return (
     <div
+      className="centered-animation"
       ref={containerRef}
       style={{ width: 160, height: 160 }}
       dangerouslySetInnerHTML={{ __html: catSvg }}
