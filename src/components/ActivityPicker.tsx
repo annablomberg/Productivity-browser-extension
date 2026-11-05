@@ -68,7 +68,7 @@ export function ActivityPicker({ value, onChange, disabled, calendarId, onCalend
     try {
       const id = await connectCalendar()
       onCalendarConnected(id)
-      onMessage('Connected to Heartbloom Activity Tracker in Google Calendar.')
+      onMessage('Connected to Activity Tracker in Google Calendar.')
     } catch (error) {
       onMessage(error instanceof Error ? error.message : String(error))
     } finally {
